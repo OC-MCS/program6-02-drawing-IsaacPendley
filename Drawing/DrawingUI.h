@@ -14,15 +14,25 @@ private:
 public:
 	DrawingUI(Vector2f p)
 	{
+
 	}
 
 	void draw(RenderWindow& win, ShapeMgr *mgr)
 	{
+		vector<DrawingShape*>* shapes = mgr->getshapes();
+		for (int i = 0; i < shapes->size(); i++) {
+			(*shapes)[i]->Draw(win);
+		}
 	}
 	
 	bool isMouseInCanvas(Vector2f mousePos)
 	{
-		return false; // just to make it compile
+		bool onCanv = true;
+		if (mousePos.x > 800 || mousePos.x < 200 || mousePos.y > 600 || mousePos.y < 0)
+		{
+			onCanv = false;
+		}
+		return onCanv;
 	}
 
 };

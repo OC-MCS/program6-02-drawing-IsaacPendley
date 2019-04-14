@@ -1,5 +1,8 @@
 //================================================
-// YOUR NAME GOES HERE <-----------------  
+// Isaac N Pendley
+// Program 6 "drawing"
+// Programming 2
+// 4/13/2019
 //================================================
 #include <iostream>
 #include <fstream>
@@ -29,6 +32,14 @@ int main()
 	DrawingUI   drawingUI(Vector2f(200, 50));
 	
 	// ********* Add code here to make the managers read from shapes file (if the file exists)
+	fstream file;
+	file.open("shapes.bin", ios::in | ios::binary);
+	if (file)
+	{
+		settingsMgr.readSetting(file);
+		shapeMgr.readShapes(file);
+	}
+	file.close();
 
 	while (window.isOpen()) 
 	{
@@ -39,6 +50,10 @@ int main()
 			{
 				window.close();
 				// ****** Add code here to write all data to shapes file
+				file.open("shapes.bin", ios::out | ios::binary);
+				settingsMgr.writeSetting(file);
+				shapeMgr.writeShapes(file);
+				file.close();
 			}
 			else if (event.type == Event::MouseButtonReleased)
 			{
@@ -48,8 +63,7 @@ int main()
 				settingsUI.handleMouseUp(mousePos);
 			}
 			else if (event.type == Event::MouseMoved && Mouse::isButtonPressed(Mouse::Button::Left))
-			{
-				
+			{				
 				Vector2f mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
 				// check to see if mouse is in the drawing area
 				if (drawingUI.isMouseInCanvas(mousePos))
